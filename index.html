@@ -16951,12 +16951,36 @@ Input <span class="ansi-green-fg">In [18]</span>, in <span class="ansi-cyan-fg">
 <h2 id="Machine-Learning">Machine Learning<a class="anchor-link" href="#Machine-Learning">&#182;</a></h2>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+</div>
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Decision trees are a powerful tool for both classification and regression tasks in machine learning. They are easy to interpret and can be visualized, which makes them a popular choice. However, decision trees can be prone to overfitting, especially when working with high-dimensional data. In addition, decision trees do not perform well when the data is not linearly separable. When working with decision trees, it is important to be aware of these limitations. Let's move forward with our decision tree</p>
+
+</div>
+</div>
+</div>
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>I've decided to train the decision tree to determine whether a song is considered very popular (Popularity value &gt;= 80) by using 5 different numeric features of the data:</p>
+<ol>
+<li>Energy</li>
+<li>Tempo</li>
+<li>Acousticness</li>
+<li>Liveness</li>
+<li>Duration (s)</li>
+</ol>
+<p>We will first have to split our dataframe into two parts, one for training of the decision tree and another for evaluating its accuracy. Then, we'll have to use the training date to train the decision tree. Finally, we'll evaluate the accuracy overall.</p>
+
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[24]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[42]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
@@ -16974,68 +16998,31 @@ Input <span class="ansi-green-fg">In [18]</span>, in <span class="ansi-cyan-fg">
     <span class="k">else</span><span class="p">:</span>
         <span class="n">popularityScore</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
+<span class="c1"># Split the dataframe into two parts: One to train the decision tree and another to test the accuracy.</span>
 <span class="n">dfCopy</span><span class="p">[</span><span class="s1">&#39;Popularity Decision&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">popularityScore</span>
 <span class="n">dfDecision</span> <span class="o">=</span> <span class="n">dfCopy</span><span class="p">[:</span><span class="mi">800</span><span class="p">]</span>
 <span class="n">dfPredict</span> <span class="o">=</span> <span class="n">dfCopy</span><span class="p">[</span><span class="mi">801</span><span class="p">:]</span>
-</pre></div>
 
-     </div>
-</div>
-</div>
-</div>
+<span class="c1"># The features our decision tree will be trained on</span>
+<span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Energy&#39;</span><span class="p">,</span> <span class="s1">&#39;Tempo&#39;</span><span class="p">,</span> <span class="s1">&#39;Acousticness&#39;</span><span class="p">,</span> <span class="s1">&#39;Liveness&#39;</span><span class="p">,</span> <span class="s1">&#39;Duration (s)&#39;</span><span class="p">]</span>
 
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[25]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Energy&#39;</span><span class="p">,</span> <span class="s1">&#39;Tempo&#39;</span><span class="p">,</span> <span class="s1">&#39;Acousticness&#39;</span><span class="p">,</span> <span class="s1">&#39;Liveness&#39;</span><span class="p">,</span> <span class="s1">&#39;Duration (s)&#39;</span><span class="p">]</span>
-
+<span class="c1"># Build the decision tree</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">dfDecision</span><span class="p">[</span><span class="n">features</span><span class="p">]</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">dfDecision</span><span class="p">[</span><span class="s1">&#39;Popularity Decision&#39;</span><span class="p">]</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[26]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dtree</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">()</span>
+<span class="n">dtree</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">()</span>
 <span class="n">dtree</span> <span class="o">=</span> <span class="n">dtree</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">export_graphviz</span><span class="p">(</span><span class="n">dtree</span><span class="p">,</span> <span class="n">out_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">feature_names</span><span class="o">=</span><span class="n">features</span><span class="p">)</span>
-</pre></div>
 
-     </div>
-</div>
-</div>
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[41]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">predictions</span> <span class="o">=</span> <span class="n">dtree</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">dfPredict</span><span class="p">[</span><span class="n">features</span><span class="p">])</span>
+<span class="c1"># Analyze the accuracy of the decision tree</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">dtree</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">dfPredict</span><span class="p">[</span><span class="n">features</span><span class="p">])</span>
 <span class="n">trueValues</span> <span class="o">=</span> <span class="n">dfPredict</span><span class="p">[</span><span class="s1">&#39;Popularity Decision&#39;</span><span class="p">]</span>
 <span class="n">accuracy</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">trueValues</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
     <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="n">predictions</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
         <span class="n">accuracy</span> <span class="o">+=</span> <span class="mi">1</span>
-<span class="n">accuracy</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">trueValues</span><span class="p">)</span>
+        
+<span class="c1"># Calculate the accuracy</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">accuracy</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">trueValues</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="si">% a</span><span class="s2">ccuracy&quot;</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -17053,13 +17040,13 @@ Input <span class="ansi-green-fg">In [18]</span>, in <span class="ansi-cyan-fg">
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[41]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
 
-
-
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>0.9354838709677419</pre>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>93.54838709677419% accuracy
+</pre>
+</div>
 </div>
 
 </div>
@@ -17067,7 +17054,13 @@ Input <span class="ansi-green-fg">In [18]</span>, in <span class="ansi-cyan-fg">
 </div>
 
 </div>
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Based on the decision tree input and the accuracy evaluation, we can confidently say we have an accurate way to predict whether or not a song will be considered very popular based on the given features. Woohoo! ML is cool!</p>
 
+</div>
+</div>
 </div>
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -17079,7 +17072,15 @@ Input <span class="ansi-green-fg">In [18]</span>, in <span class="ansi-cyan-fg">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Through this tutorial, we've learned about some of the characteristics that make a song popular. We know that C#/Db is the most common chord for Top 200 songs and that songs that are more energetic and danceable are more likely to be on</p>
+<p>Through this tutorial, we've learned about some of the characteristics that make a song popular. We know that C#/Db is the most common chord for Top 200 songs and that songs that are more energetic and danceable are more likely to be on the top 200 charts. Additionally, we've managed to create a 93% accurate decision tree that determines whether or not a song will be popular based off of a couple of its characteristics. In the future, this analysis could be expanded by using other streaming services data, such as Apple Music, or looking further into what makes a song popular by analyzing lyrical content or days released.</p>
+
+</div>
+</div>
+</div>
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Thank you for reading! :) - Casey Puentes</p>
 
 </div>
 </div>
